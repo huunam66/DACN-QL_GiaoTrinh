@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/ui/Layout_Page/layout-error}">
+
+    <th:block layout:fragment="title">
+        <title>520</title>
+    </th:block>
+
+    <th:block layout:fragment="style">
+        <style>
+
+            *{
+                padding: 0;
+                margin: 0;
+                font-family: "Rubik", sans-serif;
+                box-sizing: border-box !important;
+                letter-spacing: .1rem;
+            }
+
+            main{
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #333;
+            }
+
+            div{
+                text-align: center;
+            }
+
+            h1, h2{
+                display: block;
+            }
+
+            h1{
+                position: relative;
+                font-size: 132px;
+                margin-bottom: 24px;
+                color: #0655a0;
+            }
+
+            h2{
+                font-size: 32px;
+                text-transform: uppercase;
+                color: rgb(185, 45, 14);
+            }
+        </style>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <main>
+            <div>
+                <h1>520</h1>
+                <h2>server unknow</h2>
+            </div>
+        </main>
+    </th:block>
+</html>

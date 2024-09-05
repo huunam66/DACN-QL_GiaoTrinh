@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--HEAD-->
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/thongke.css}" />
+
+</th:block>
+
+<!--CONTENT-->
+<th:block layout:fragment="content">
+<!--    <form class="select-container" method="post" >-->
+<!--        <label>Khoảng thời gian:</label>-->
+<!--        <select name="">-->
+<!--            <option selected>Chọn</option>-->
+<!--            <option value="2-6">Tháng 2 - Tháng 6</option>-->
+<!--            <option value="7-12">Tháng 7 - Tháng 12</option>-->
+<!--        </select>-->
+<!--    </form>-->
+
+
+    <div class="row-top">
+        <select class="type-tk sl-tk">
+            <option value="0">Thống kê</option>
+            <option value="1">Phiếu nhập</option>
+            <option value="2">Phiếu xuất</option>
+        </select>
+    </div>
+
+    <div class="row-top">
+        <select class="type-tk sl-opt">
+            <option value="0">Dựa theo</option>
+            <option value="1">Theo tháng</option>
+            <option value="2">Cả năm</option>
+        </select>
+        <div class="content-date opt-date">
+            <p class="date-month">
+                <span class="year">2023</span>
+                /
+                <span class="month">05</span>
+<!--                /-->
+<!--                <span class="day">15</span>-->
+                <i class='bx bxs-calendar'></i>
+            </p>
+            <div class="date-table d-none">
+                <p class="name-type">Năm</p>
+                <div class="tag">
+                    <!--                        <p>1</p>-->
+                    <!--                        <p>2</p>-->
+                    <!--                        <p>3</p>-->
+                    <!--                        <p>4</p>-->
+                    <!--                        <p>5</p>-->
+                    <!--                        <p>6</p>-->
+                    <!--                        <p>7</p>-->
+                    <!--                        <p>8</p>-->
+                    <!--                        <p>9</p>-->
+                    <!--                        <p>10</p>-->
+                    <!--                        <p>11</p>-->
+                    <!--                        <p>12</p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--    <div class="co">-->
+<!--        <div class="chart-container">-->
+<!--            <canvas id="order-chart"></canvas>-->
+<!--        </div>-->
+
+<!--        <div class="chart-container">-->
+<!--            <canvas id="revenue-chart"></canvas>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</th:block>
+
+
+<!--SCRIPT-->
+
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/thongke.js}"></script>
+</th:block>
+</html>

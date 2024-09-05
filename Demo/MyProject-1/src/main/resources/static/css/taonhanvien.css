@@ -1,0 +1,115 @@
+
+
+.layout-in{
+    padding: 6.4rem 3.2rem !important;
+    display: flex !important;
+}
+
+.layout-in .form-in{
+    width: 80rem;
+    position: relative;
+    margin: auto;
+}
+
+
+.layout-in .form-in .tit{
+    font-size: 3.2rem;
+    color: #333;
+    background-color: #d4d4d4;
+    padding-bottom: 2rem;
+    border-bottom: .4rem solid #0655a0;
+}
+
+.layout-in .form-in a{
+    font-size: 1.4rem;
+    color: #fff;
+    background-color: #333;
+    padding: .4rem .8rem;
+    position: absolute;
+    top: -3.2rem;
+}
+
+.layout-in .form-in a:hover{
+    background-color: #000;
+}
+
+.layout-in form{
+    background-color: #fff;
+    border-radius: .4rem;
+    overflow: hidden;
+}
+
+
+.layout-in form .box-imp{
+    padding: 3.2rem 4.4rem;
+    padding-bottom: 0;
+}
+
+.layout-in form .box-imp-item label,
+.layout-in form .box-imp-item input,
+.layout-in form .box-imp-item select{
+    display: block;
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: .4rem;
+}
+
+.layout-in form .box-imp-item label{
+    font-size: 1.4rem;
+    color: #000;
+}
+
+.layout-in form .box-imp-item input,
+.layout-in form .box-imp-item select{
+    margin-bottom: 1.4rem;
+    width: 100%;
+    padding: .8rem 1rem;
+    border: .1rem solid #d4d4d4;
+    border-radius: .2rem;
+    outline: none;
+    margin-bottom: .4rem;
+}
+
+.layout-in form .box-imp-item .error{
+    margin-bottom: 1.4rem;
+    display: block;
+    color: red;
+    font-size: 1.4rem;
+}
+
+.layout-in form .box-imp-item select option{
+    font-size: 1.6rem;
+}
+
+.layout-in form .box-imp-item input:focus,
+.layout-in form .box-imp-item select:focus{
+    border: .1rem solid #08f;
+}
+
+
+.layout-in form .box-imp-item input::-webkit-inner-spin-button,
+.layout-in form .box-imp-item input::-webkit-outer-spin-button{
+    display: none;
+}
+
+.layout-in form .box-sm{
+    padding: 2rem 4.4rem;
+    padding-bottom: 3.2rem;
+    text-align: right;
+}
+
+.layout-in form .box-sm button[type=button],
+.layout-in form .box-sm button[type=submit]{
+    background-color: #08f;
+    padding: 1rem 2rem;
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    border-radius: .4rem;
+}
+
+.layout-in form .box-sm button[type=button]:hover,
+.layout-in form .box-sm button[type=submit]:hover{
+    background-color: rgb(2, 117, 218);
+}
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--Style-->
+    <th:block layout:fragment="style">
+    </th:block>
+
+<!--Content-->
+    <th:block layout:fragment="content">
+        <main class="container">
+            <div class="layout-in">
+                <div class="top-1">
+                    <a th:href="@{/nhacungcap/create}" class="more-book">
+                        <i class="ph ph-plus"></i>
+                        Thêm nhà cung cấp
+                    </a>
+                </div>
+                <div class="tab-ar">
+                    <div class="top">
+                        <p class="type-p">Tất cả nhà cung cấp</p>
+                    </div>
+                    <div class="middle">
+                        <form th:action="@{/nhacungcap}" method="GET">
+                            <div class="ele-1">
+                                <i class='bx bx-search-alt-2' ></i>
+                                <input style="width: 400px" th:value="${search}" name="search" id="search" class="search" type="text" placeholder="Tìm kiếm theo tên nhà cung cấp">
+                                <button type="submit" class="search-bsm">Tìm kiếm</button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="tab-pr-gt">
+                        <table class="tab-pr">
+                            <thead>
+                            <tr>
+                                <th class="checkbox">
+                                    <input type="hidden" class="cb-th">
+                                </th>
+                                <th class="price">Mã</th>
+                                <th class="name">Tên nhà cung cấp</th>
+                                <th class="category">Số điện thoại</th>
+                                <th class="nxb-nxb">Email</th>
+                                <th class="author">Địa chỉ</th>
+                                <th class="nxb-nxb">Tỉnh thành</th>
+                                <th class="nxb-nxb">Quận/Huyện</th>
+                                <th class="nxb-nxb">Phường/Xã</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="ncc:${nccs}">
+                                <td class="checkbox">
+                                    <input th:id="${'id-' + ncc.id}"  type="checkbox" class="cb-td">
+                                </td>
+                                <td th:text="${ncc.id}" class="price">Mã</td>
+                                <td th:text="${ncc.ten}" class="name">Tên nhà cung cấp</td>
+                                <td th:text="${ncc.sdt}" class="category">Số điện thoại</td>
+                                <td th:text="${ncc.email}" class="nxb-nxb">Email</td>
+                                <td th:text="${ncc.diachi}" class="author">Địa chỉ</td>
+                                <td class="nxb-nxb" th:text="${ncc.tinhthanh} ">Tỉnh thành</td>
+                                <td class="nxb-nxb" th:text="${ncc.quanhuyen}">Quận/Huyện</td>
+                                <td class="nxb-nxb" th:text="${ncc.phuongxa}">Phường/Xã</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page-list">
+                        <p class="txt-txt" th:text="${count_item + ' trên tổng số ' + max_size + ' nhà cung cấp.'}"></p>
+
+                        <!--                    PAGE OPTION-->
+                        <th:block th:if="${page > 1}">
+                            <a th:href="${'/nhacungcap?' + (search != null && search != '' ? '&search=' + search : '') + '&page=' + (page - 1)}">
+                                <i class="ph ph-caret-left"></i>
+                            </a>
+                        </th:block>
+                        <th:block th:unless="${page > 1}">
+                            <a class="dive-mod">
+                                <i class="ph ph-caret-left"></i>
+                            </a>
+                        </th:block>
+
+                        <p class="page" th:text="${page}"></p>
+
+                        <th:block th:if="${page < count_page}">
+                            <a th:href="${'/nhacungcap?' + (search != null && search != '' ? '&search=' + search : '') + '&page=' + (page + 1)}">
+                                <i class="ph ph-caret-right"></i>
+                            </a>
+                        </th:block>
+                        <th:block th:unless="${page < count_page}">
+                            <a class="dive-mod">
+                                <i class="ph ph-caret-right"></i>
+                            </a>
+                        </th:block>
+                        <!--                    PAGE OPTION-->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </th:block>
+
+<!--SCRIPT-->
+    <th:block layout:fragment="script">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script th:src="@{/js/nhacungcap.js}" defer="defer"></script>
+    </th:block>
+</html>

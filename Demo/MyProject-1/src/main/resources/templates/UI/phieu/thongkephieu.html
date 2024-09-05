@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--HEAD-->
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/thongke.css}" />
+
+</th:block>
+
+<!--CONTENT-->
+<th:block layout:fragment="content">
+<!--    <form class="select-container" method="post" >-->
+<!--        <label>Khoảng thời gian:</label>-->
+<!--        <select name="">-->
+<!--            <option selected>Chọn</option>-->
+<!--            <option value="2-6">Tháng 2 - Tháng 6</option>-->
+<!--            <option value="7-12">Tháng 7 - Tháng 12</option>-->
+<!--        </select>-->
+<!--    </form>-->
+
+    <div class="container-tk">
+        <div class="row-top">
+            <select class="type-tk sl-tk">
+                <option value="0">Thống kê</option>
+                <option value="1">Phiếu nhập</option>
+                <option value="2">Phiếu xuất</option>
+                <option value="3">Cả 2 phiếu</option>
+            </select>
+        </div>
+
+        <div class="row-top">
+            <select class="type-tk sl-opt">
+                <option value="0">Dựa theo</option>
+                <option value="1">Theo tháng</option>
+                <option value="2">Cả năm</option>
+            </select>
+            <div class="content-date">
+                <div class="month-type opt-date d-none">
+                    <p class="date">
+                        <span class="year">2023</span>
+                        /
+                        <span class="month">05</span>
+        <!--                /-->
+        <!--                <span class="day">15</span>-->
+                        <i class='bx bxs-calendar'></i>
+                    </p>
+                    <div class="date-table d-none">
+                        <p class="name-type">Năm</p>
+                        <div class="tag">
+                            <!--                        <p>1</p>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="year-type opt-date d-none">
+                    <p class="date">
+                        <span class="year">2023</span>
+    <!--                    /-->
+    <!--                    <span class="month">05</span>-->
+                        <!--                /-->
+                        <!--                <span class="day">15</span>-->
+                        <i class='bx bxs-calendar'></i>
+                    </p>
+                    <div class="date-table d-none">
+                        <p class="name-type">Năm</p>
+                        <div class="tag">
+                            <!--                        <p>1</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-layout">
+            <div class="chart-container">
+                <p class="title">Phiếu</p>
+                <canvas id="phieu-chart"></canvas>
+            </div>
+
+            <div class="chart-container chart-2-bot">
+                <p class="title">Thu chi</p>
+                <canvas id="doanhthu-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<!--SCRIPT-->
+
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/thongke.js}"></script>
+</th:block>
+</html>

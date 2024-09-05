@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--HEAD-->
+    <th:block layout:fragment="style">
+        <link rel="stylesheet" th:href="@{/css/phieunhap.css}" />
+        <link rel="stylesheet" th:href="@{/css/taophieunhap.css}" />
+    </th:block>
+
+<!--CONTENT-->
+    <th:block layout:fragment="content">
+        <div class="top-mod">
+            <a
+                    th:href="@{/}"
+                    class="left-t"
+                    style="display: flex; align-items: center; font-size: 1.6rem"
+            >
+                <i
+                        class="ph ph-arrow-arc-left"
+                        style="font-size: 2.4rem; margin-right: 1rem"
+                ></i>
+                Quay lại
+            </a>
+            <div class="btn-mod-area">
+                <!-- <a href="#" class="exit">Thoát</a> -->
+                <div class="submit-cr">
+                    <button style="display: flex; align-items: center" type="button" form="them-phieunhap">
+                        <i class="ph ph-plus" style="margin-right: 1rem"></i>
+                        Hoàn tất nhập
+                    </button>
+                    <!-- <button class="caret-down">
+                      <i class="fa-solid fa-caret-down"></i>
+                    </button> -->
+                    <!-- <ul class="more">
+                      <li>
+                        <a class="create">Thống kê</a>
+                      </li>
+                      <li>
+                        <button class="create">Tạo phiếu</button>
+                      </li>
+                      <li>
+                        <button class="create">Tạo phiếu và duyệt</button>
+                      </li>
+                    </ul> -->
+                </div>
+            </div>
+        </div>
+
+        <main class="container">
+            <div class="layout-main">
+                <div class="layout-main-top">
+                    <div class="left-site">
+                        <p class="tit">Thông tin nhà cung cấp</p>
+                        <div class="search-left-site">
+                            <i class="ph ph-magnifying-glass"></i>
+                            <input
+                                    type="text"
+                                    class="search-inp inp-ncc"
+                                    placeholder="Tìm theo tên nhà cung cấp"
+                            />
+                            <div class="list-search">
+                                <i class="ph ph-x close"></i>
+<!--                                <button class="btn-more-obj">-->
+<!--                        <span>-->
+<!--                          <i class='bx bx-plus-circle'></i>-->
+<!--                          Thêm mới nhà cung cấp-->
+<!--                        </span>-->
+<!--                                </button>-->
+                                <ul class="list-ncc">
+<!--                                    <li title="Nhà cung cấp 1">-->
+<!--                                        <figure>-->
+<!--                                            <i class="ph ph-codesandbox-logo"></i>-->
+<!--                                            <p title="Tên nhà cung cấp" class="name">cung 3243 432 423 423 423 432 3 32 432 cấp 1</p>-->
+<!--                                            <p title="Số điện thoại" class="phone">099128512</p>-->
+<!--                                            <p title="Email" class="email">nguyen.hnam2024@gmail.com</p>-->
+<!--                                        </figure>-->
+<!--                                    </li>-->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choosed-item">
+                            <!-- <div class="empty">
+                              <i class='bx bx-layer-minus'></i>
+                              <p>Không có nhà cung cấp nào được chọn.</p>
+                            </div> -->
+                            <figure class="nhacungcap-inf">
+                                <input type="hidden" name="nhacungcap_id" form="them-phieunhap">
+<!--                                <i class="ph ph-codesandbox-logo"></i>-->
+                                <p class="name">
+                                    <span class="required-flex">Tên nhà cung cấp:</span>
+                                    <input placeholder="Trống !" readonly>
+                                </p>
+                                <p class="phone">
+                                    <span class="required-flex">Số điện thoại:</span>
+                                    <input placeholder="Trống !" readonly>
+                                </p>
+                                <p class="email">
+                                    <span class="required-flex">Email:</span>
+                                    <input placeholder="Trống !" readonly>
+                                </p>
+                                <p class="address">
+                                    <span class="required-flex">Địa chỉ:</span>
+                                    <input placeholder="Trống !" readonly>
+                                </p>
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="right-site">
+                        <p class="tit">Thông tin đơn nhập hàng</p>
+                        <p class="chinhanh">
+                            <span>Chi nhánh:</span>
+                            <span>Trường Đại Học Công Thương</span>
+                        </p>
+                        <p class="nhanvien">
+                            <span>Nhân viên:</span>
+                            <span th:text="${fullname}"></span>
+                        </p>
+                        <p class="">
+                            <span>Ngày nhập:</span>
+                            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
+                        </p>
+
+                        <a th:href="@{/phieunhap/create}" class="reset-btn">Reset</a>
+                    </div>
+                </div>
+                <div class="layout-main-site">
+                    <div class="top">
+                        <p class="tit">Thông tin giáo trình</p>
+                        <div class="search">
+                            <div class="search-left-site">
+                                <i class="ph ph-magnifying-glass"></i>
+                                <input
+                                        type="text"
+                                        class="search-inp inp-gt"
+                                        placeholder="Tìm theo tên giáo trình"
+                                />
+                                <div class="list-search">
+                                    <i class="ph ph-x close"></i>
+                                    <ul>
+                                        <!-- <li>
+                                          <figure>
+                                            <i class="ph ph-codesandbox-logo"></i>
+                                            <p class="name">cung cấp 1</p>
+                                            <p class="phone">099128512</p>
+                                            <p class="email">nguyen.hnam2024@gmail.com</p>
+                                          </figure>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <button class="choose-more-book d-none">
+                                Chọn nhiều
+                                <i class="ph ph-article"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tab-book" id="them-phieunhap">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="stt">STT</th>
+                                <th class="anh">Ảnh</th>
+                                <th class="ten">Tên giáo trình</th>
+                                <th class="slnhap">SL nhập</th>
+                                <th class="dongia">Giá nhập</th>
+<!--                                <th class="chietkhau">Chiết khấu</th>-->
+                                <th class="thanhtien">Thành tiền</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+<!--                            <tr>-->
+<!--                                <td class="stt">-->
+<!--                                    <input type="hidden" name="id">-->
+<!--                                    STT-->
+<!--                                </td>-->
+<!--                                <td class="anh">-->
+<!--                                    <img src="./assest/logo.png">-->
+<!--                                </td>-->
+<!--                                <td class="ten">-->
+<!--                                    <p>Tên giáo trình</p>-->
+<!--                                </td>-->
+<!--                                <td class="slnhap">-->
+<!--                                    <input type="number" value="1" min="1" name="soluong">-->
+<!--                                </td>-->
+<!--                                <td class="dongia">Đơn giá</td>-->
+<!--&lt;!&ndash;                                <td class="chietkhau">Chiết khấu</td>&ndash;&gt;-->
+<!--                                <td class="thanhtien">Thành tiền</td>-->
+<!--                                <td class="del" title="Loại bỏ">-->
+<!--                                    <i class="ph ph-trash"></i>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bot-site">
+                        <div class="note">
+                            <p>Ghi chú</p>
+                            <textarea class="note" placeholder="VD: Giao hàng nhanh !"></textarea>
+                        </div>
+                        <div class="other-r">
+                            <p class="soluong">
+                                <span>Số lượng</span>
+                                <span class="num">0</span>
+                            </p>
+                            <p class="tongtien">
+                                <span>Tổng tiền</span>
+                                <span class="num">0</span>
+                            </p>
+<!--                            <p class="chietkhau">-->
+<!--                                <span>Chiết khấu</span>-->
+<!--                                <span class="num">0</span>-->
+<!--                                <input class="ckau" name="chietkhau">-->
+<!--                            </p>-->
+                            <p class="tiencantra">
+                                <span>Tiền cần trả</span>
+                                <span tiencantra="0" class="num">0</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </th:block>
+
+<!--SCRIPT-->
+
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer="defer" th:src="@{/js/taophieu.js}"></script>
+    <script defer="defer" th:src="@{/js/taophieunhap.js}"></script>
+</th:block>
+</html>

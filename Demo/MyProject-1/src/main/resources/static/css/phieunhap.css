@@ -1,0 +1,150 @@
+
+.top-mod{
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2.8rem;
+    border-top: .1rem solid #f0f1f1;
+    z-index: 9999;
+}
+
+.top-mod .left-t{
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #777f8a;
+    margin: auto 0;
+}
+
+.btn-mod-area{
+    display: flex;
+}
+
+
+.btn-mod-area .exit{
+    padding: 1rem 1.4rem;
+    font-size: 1.4rem;
+    color: #0088ff;
+    border: .1rem solid #0088ff;
+    border-radius: .3rem;
+    text-decoration: none;
+}
+
+.btn-mod-area .exit:hover{
+    background-color: #e6f4ff;
+}
+
+
+.btn-mod-area .submit-cr{
+    display: flex;
+    margin-left: 2rem;
+    position: relative;
+}
+
+
+.btn-mod-area .submit-cr button:not(.create),
+.btn-mod-area .submit-cr .cr-ph{
+    background-color: #0088ff;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 1rem 1.4rem;
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+
+.btn-mod-area .submit-cr .cr-ph{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: .3rem;
+    border-bottom-left-radius: .3rem;
+    border-right: .1rem solid #fff;
+}
+
+
+
+.btn-mod-area .submit-cr button:not(.create):hover,
+.btn-mod-area .submit-cr .cr-ph:hover{
+    opacity: .9;
+}
+
+.more-show{
+    display: block !important;
+}
+
+.btn-mod-area .submit-cr .more{
+    width: fit-content;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 1rem);
+    box-shadow: rgba(168, 168, 168, 0.5) 0px 10px 20px;
+    border-radius: .3rem;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.btn-mod-area .submit-cr .more li{
+    display: block;
+    padding: .5rem;
+}
+
+
+.btn-mod-area .submit-cr .more a{
+    min-width: 18rem;
+    width: 100%;
+    white-space: nowrap;
+    display: block;
+    padding: 1rem;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1.4rem;
+    border-radius: .3rem;
+}
+
+.btn-mod-area .submit-cr .more a:hover{
+    color: #0088ff;
+    background-color: #e6f4ff;
+}
+
+
+.sort-container {
+    font-size: 1.6rem;
+    padding: .8rem;
+    outline: none;
+    border: none;
+    border-bottom: .1rem solid #ccc;
+}
+
+.sort-value {
+    font-size: 1.4rem;
+}
+
+.sort_{
+    margin-right: 2rem;
+}
+.sort_:last-child{
+    margin-right: 0;
+}
+
+.typing-select{
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+. role-select{
+    margin-left: auto;
+}

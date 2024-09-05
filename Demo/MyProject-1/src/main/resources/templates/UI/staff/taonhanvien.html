@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!-- STYLE-->
+    <th:block layout:fragment="style">
+        <link rel="stylesheet" th:href="@{/css/taonhanvien.css}" />
+    </th:block>
+
+<!-- CONTENT-->
+    <th:block layout:fragment="content">
+        <main class="container">
+            <div class="layout-in">
+                <div class="form-in">
+                    <a class="back" th:href="@{/nhanvien}">Quay lại</a>
+                    <form th:action="${action}" th:object="${nhanvien}" method="POST">
+                        <h1 class="tit"></h1>
+                        <div class="box-imp">
+                            <p class="box-imp-item">
+                                <input type="hidden" th:field="*{id}">
+                                <label>Mã sinh viên:</label>
+                                <input th:field="*{mssv}" type="text" placeholder="Nhập mã sinh viên">
+                                <span th:if="${status_save!=null}" th:text="${status_save}" class="error"></span>
+                                <span class="error"></span>
+
+                            </p>
+                            <p class="box-imp-item">
+                                <label>Tên sinh viên:</label>
+                                <input th:field="*{ten}" type="text" placeholder="Nhập tên sinh viên">
+                                <span class="error"></span>
+                            </p>
+                            <p class="box-imp-item">
+                                <label>Số điện thoại:</label>
+                                <input th:field="*{sdt}" autocomplete="off" pattern="0\d{9}" title="Sai định dạng." type="text" placeholder="Nhập số điện thoại">
+                                <span class="error"></span>
+                            </p>
+                        </div>
+                        <div class="box-sm">
+                            <button type="button">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </th:block>
+
+<!-- script js -->
+
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/taonhanvien.js}" defer="defer"></script>
+    </th:block>
+
+</html>

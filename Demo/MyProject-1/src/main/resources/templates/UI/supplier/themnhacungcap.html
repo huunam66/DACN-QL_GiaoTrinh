@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--Style-->
+    <th:block layout:fragment="bootstrap">
+        <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.css}">
+    </th:block>
+    <th:block layout:fragment="style">
+        <link rel="stylesheet" th:href="@{/css/themnhacungcap.css}">
+    </th:block>
+<!-- Content -->
+    <th:block layout:fragment="content">
+
+        <style>
+            body{
+                overflow: hidden;
+            }
+            ul, ol{
+                padding-left: 0 !important;
+                overflow: hidden !important;
+            }
+        </style>
+        <main class="container" style="padding: 0 3.2rem !important">
+            <div class="layout-in" style="padding: 2rem 0 !important;">
+                <a th:href="@{/nhacungcap}" class="more-book">Quay lại</a>
+            </div>
+            <div class="card-header py-3" style="background-color: #e8eaeb;border-bottom-style: solid">
+            </div>
+            <form th:action="@{/nhacungcap/save}" th:object="${nhaCungCap}" method="POST">
+                <div class="card text-black">
+                    <div class="card-body p-md-4">
+                        <div style="display: flex;padding-bottom: 3rem ">
+                            <div class="col px-md-4" style="">
+                                <label >Tên nhà cung cấp <span style="color: red">*</span></label>
+                                <input th:field="*{id}" type="hidden">
+                                <input required th:field="*{ten}" type="text" class="form-control"  placeholder="" style="font-size: 2rem  ;border-style: solid">
+                                <p
+                                        class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                                ></p>
+                            </div>
+                            <div class="col px-md-4">
+                                <label >Số điện thoại <span style="color: red">*</span></label>
+                                <input required th:field="*{sdt}" autocomplete="off" pattern="0\d{9}" title="Sai định dạng." type="text" class="form-control"  placeholder="" style="font-size: 2rem ;border-style: solid">
+                                <p
+                                        class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                                ></p>
+                            </div>
+
+                        </div>
+                        <div style="display: flex;padding-bottom: 3rem ">
+                            <div class="col px-md-4" style="">
+                                <label >Email <span style="color: red">*</span></label>
+                                <input required th:field="*{email}" type="email" class="form-control"  placeholder="" style="font-size: 2rem  ;border-style: solid">
+                                <p
+                                        class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                                ></p>
+                            </div>
+                            <div class="col px-md-4">
+                                <label >Tỉnh Thành</label>
+                                <div>
+                                    <select class="provinces" name="tinhthanh" id="TinhThanh">
+                                        <option value="">Chọn</option>
+                                    </select>
+                                </div>
+                                <p
+                                        class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                                ></p>
+                            </div>
+
+                        </div>
+
+                        <div style="display: flex;padding-bottom: 3rem ">
+                            <div class="col px-md-4" style="">
+                                <label >Quận/Huyện</label>
+                                <div>
+                                    <select class="districts" name="quanhuyen" id="QuanHuyen">
+                                        <option value="">Chọn</option>
+                                    </select>
+                                </div>
+                                <p
+                                        class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                                ></p>
+                            </div>
+                            <div class="col px-md-4">
+                                <label>Phường/Xã</label>
+                                <div>
+                                    <select class="wards" name="phuongxa" id="PhuongXa">
+                                        <option value="">Chọn</option>
+                                    </select>
+                                </div>
+                                <p
+                                        class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                                ></p>
+                            </div>
+                        </div>
+                        <div class="px-md-4">
+                            <label >Địa chỉ <span style="color: red">*</span></label>
+                            <input required th:field="*{diachi}" type="text" class="form-control"  placeholder="" style="font-size: 2rem  ;border-style: solid">
+                            <p
+                                    class="err" style="color: red; font-size: 16px; margin-top: 2px"
+                            ></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="" style="padding-top: 10px; text-align: right">
+                    <button id="btn" class="btn btn-primary btn-lg" type="submit">Lưu</button>
+                </div>
+            </form>
+        </main>
+    </th:block>
+
+<!--    SCRIPT-->
+    <th:block layout:fragment="script">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script th:src="@{/js/prodisw.js}" defer="defer"></script>
+    </th:block>
+</html>

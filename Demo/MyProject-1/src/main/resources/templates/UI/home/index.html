@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+
+<!--    HEAD -->
+
+    <th:block layout:fragment="style"> </th:block>
+
+
+<!--CONTENT-->
+
+    <th:block layout:fragment="content">
+        <main
+            style="
+                background-image: url('/pictures/main/bg-huit.jpg');
+                background-size: 100% 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1;
+                background-repeat: no-repeat;"
+        >
+        </main>
+    </th:block>
+
+    <!-- SCRIPT  -->
+    <th:block layout:fragment="script">
+        <script defer="defer" th:src="@{/js/header.js}"></script>
+    </th:block>
+</html>

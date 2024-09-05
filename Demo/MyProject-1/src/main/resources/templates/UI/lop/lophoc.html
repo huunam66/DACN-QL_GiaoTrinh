@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+
+<!--HEAD-->
+
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/nhanvien.css}"/>
+    <link rel="stylesheet" th:href="@{/css/excel-import.css}"/>
+</th:block>
+
+<!--CONTENT-->
+
+<th:block layout:fragment="content">
+    <main class="container">
+        <div class="layout-in">
+            <div class="top-1">
+                <p class="left-1">
+                    <button class="out-file out-file-excel">
+                        <i class="ph ph-microsoft-excel-logo"></i>
+                        Nhập từ EXCEL
+                    </button>
+                </p>
+                <a th:href="@{/lophoc/create}" class="more-book">
+                    <i class="ph ph-plus"></i>
+                    Thêm lớp học
+                </a>
+            </div>
+
+            <div class="tab-ar">
+                <div class="top">
+                    <p class="type-p">Tất cả Lớp</p>
+                </div>
+                <div class="middle">
+                    <form class="ele-1" th:action="@{/lophoc}" method="get">
+                        <i class='bx bx-search-alt-2'></i>
+                        <input id="search" name="search" th:value="${search}" class="search" type="text" placeholder="Tìm kiếm theo lớp">
+                        <button type="submit" class="search-bsm">Tìm kiếm</button>
+                    </form>
+<!--                    <div class="ele-2">-->
+<!--                        <div class="cat">-->
+<!--                            <button class="btn-btn">-->
+<!--                                <span>Loại giáo trình</span>-->
+<!--                                <i class="ph ph-caret-down"></i>-->
+<!--                            </button>-->
+<!--                            <div class="cb-cb-s">-->
+<!--                                <button class="btn-slcat btn-slcat-all">-->
+<!--                                    <input type="checkbox">-->
+<!--                                    <span class="lb-cb">Chọn tất cả</span>-->
+<!--                                </button>-->
+<!--                                <button class="btn-slcat">-->
+<!--                                    <input type="checkbox">-->
+<!--                                    <span class="lb-cb">Ngành công nghệ phần mềm</span>-->
+<!--                                </button>-->
+<!--                                <button class="btn-slcat">-->
+<!--                                    <input type="checkbox">-->
+<!--                                    <span class="lb-cb">Ngành hệ thống thông tin</span>-->
+<!--                                </button>-->
+<!--                                <button class="btn-slcat">-->
+<!--                                    <input type="checkbox">-->
+<!--                                    <span class="lb-cb">Ngành phân tích dữ liệu</span>-->
+<!--                                </button>-->
+<!--                                <button class="btn-slcat">-->
+<!--                                    <input type="checkbox">-->
+<!--                                    <span class="lb-cb">Ngành mạng máy tính</span>-->
+<!--                                </button>-->
+
+<!--                                <a class="submit-t">Lọc</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="cat">-->
+<!--                            <button class="btn-btn">-->
+<!--                                <span>Ngày tạo</span>-->
+<!--                                <i class="ph ph-caret-down"></i>-->
+<!--                            </button>-->
+<!--                            <div class="cb-cb-s date-cr">-->
+<!--                                <input type="button" name="type-date" value="Hôm nay">-->
+<!--                                <input type="button" name="type-date" value="Hôm qua">-->
+<!--                                <input type="button" name="type-date" value="Tuần trước">-->
+<!--                                <input type="button" name="type-date" value="Tuần này">-->
+<!--                                <input type="button" name="type-date" value="Tháng trước">-->
+<!--                                <input type="button" name="type-date" value="Tháng này">-->
+<!--                                <input type="button" name="type-date" value="Tùy chọn">-->
+<!--                                <div class="date-ssss">-->
+<!--                                    <input type="date" name="date_start">-->
+<!--                                    <input type="date" name="date_end">-->
+<!--                                </div>-->
+<!--                                <a class="submit-t">Lọc</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="sort_">
+                        <select id="sortDrop" name="sortDrop" class="sort-container">
+                            <option th:selected="${sort eq 'Sắp xếp theo giá bán'}" class="sort-value" value="">Sắp xếp theo Tên lớp</option>
+                            <option th:selected="${sort eq 'asc'}" class="sort-value" value="asc">Tăng dần</option>
+                            <option th:selected="${sort eq 'desc'}" class="sort-value" value="desc">Giảm dần</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="tab-pr-gt">
+                    <table class="tab-pr">
+                        <thead>
+                        <tr>
+                            <th class="checkbox">
+                                <input type="hidden" class="cb-th">
+                            </th>
+                            <th class="price">Mã</th>
+                            <th class="update">Tên lớp</th>
+                            <th class="category">Môn học</th>
+                            <th class="category">Giảng viên</th>
+                            <th class="in-stock">Phòng học</th>
+                            <th class="category">Thời gian học</th>
+                            <th class="author">Năm học</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="lop: ${lops}">
+                            <td class="checkbox">
+                                <input th:id="${'id-' + lop.getId()}" type="checkbox" class="cb-td"/>
+                            </td>
+                            <td class="price" th:text="${lop.getId()}"></td>
+                            <td class="update" th:text="${lop.getTen()}"></td>
+                            <td th:text="${lop.getMonhoc()}" class="category">Loại giáo trình</td>
+                            <td th:text="${lop.getGiangvien()}" class="category">Giá bán</td>
+                            <td th:text="${lop.getPhonghoc()}" class="in-stock">Tồn kho</td>
+                            <td th:text="${lop.getThoigianhoc()}" class="category">Ngày tạo</td>
+                            <td th:text="${lop.getNamhoc()}" class="author">Tác giả</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-list">
+                    <!-- <div class="type-mod">
+                        <a class="op-item ud" href="#">Sửa</a>
+                        <a class="op-item del" href="#">Xóa</a>
+                    </div> -->
+                    <p class="txt-txt" th:text="${count_item + ' trên tổng số ' + max_size + ' lớp học.'}"></p>
+
+                    <!--                    PAGE OPTION-->
+                    <th:block th:if="${page > 1}">
+                        <a th:href="${'/lophoc?' + (search != null && search != '' ? '&search=' + search : '') + '&page=' + (page - 1) + '&sort=' + sort}">
+                            <i class="ph ph-caret-left"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${page > 1}">
+                        <a class="dive-mod">
+                            <i class="ph ph-caret-left"></i>
+                        </a>
+                    </th:block>
+
+                    <p class="page" th:text="${page}"></p>
+
+                    <th:block th:if="${page < count_page}">
+                        <a th:href="${'/lophoc?' + (search != null && search != '' ? '&search=' + search : '') + '&page=' + (page + 1) + '&sort=' + sort }">
+                            <i class="ph ph-caret-right"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${page < count_page}">
+                        <a class="dive-mod">
+                            <i class="ph ph-caret-right"></i>
+                        </a>
+                    </th:block>
+                    <!--                    PAGE OPTION-->
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+<!--    SCRIPT -->
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/excel-import.js}"></script>
+    <script th:src="@{/js/lophoc.js}" defer="defer"></script>
+    <script th:src="@{/js/themgiaotrinh.js}" defer="defer"></script>
+</th:block>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <th:block layout:fragment="bootstrap"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/top.css}"/>
+    <link rel="stylesheet" th:href="@{/css/manager-site.css}" />
+    <link rel="stylesheet" th:href="@{/css/nhanvien.css}"/>
+
+    <th:block layout:fragment="style"></th:block>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <title th:text="${title}"></title>
+</head>
+<body>
+<section>
+    <div class="nav" style="--w-nav: 23.4rem">
+        <nav class="navbar" th:style="${create_nhaCungCap != null && create_nhaCungCap ? 'min-width: 100% !important;' : ''}">
+            <p class="topi" th:style="${create_nhaCungCap != null && create_nhaCungCap ? 'min-width: 100% !important;' : ''}">
+                <a class="a-logo" th:href="@{/}">
+                    <img class="logo" th:src="@{/pictures/main/logo.png}"/>
+                </a>
+                <button class="btn-shw">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </p>
+            <ul class="nav-list">
+                <li class="list-item" th:classappend="${group != null && group == 'home' ? 'select-nav select-nav-bgcl' : ''}">
+                    <a th:href="@{/}" class="drop-clk">
+                        <i class="ph ph-house"></i>
+                        <span>HUIT</span>
+                    </a>
+                </li>
+
+                <!-- li 1 -->
+                <li class="list-item">
+                    <div class="block-item" th:classappend="${group != null && group == 'kho' ? 'select-nav select-nav-bgcl' : ''}">
+                        <button class="drop-clk drop-flow">
+                            <i class="ph ph-books"></i>
+                            <span>Kho hàng</span>
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="drop-down-icon w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+
+                            >
+                                <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                />
+                            </svg>
+                        </button>
+                        <ol class="drop-list">
+                            <li class="drop-list-item">
+                                <a th:href="@{/book}" class="link" th:classappend="${title != null && title == 'Kho giáo trình' ? 'current-link' : ''}">
+                                    <span>Giáo trình</span>
+                                </a>
+                            </li>
+                            <li class="drop-list-item">
+                                <a th:href="@{/phieunhap/create}" class="link" th:classappend="${title != null && title == 'Nhập giáo trình' ? 'current-link' : ''}">
+                                    <span>Nhập giáo trình</span>
+                                </a>
+                            </li>
+<!--                            <li class="drop-list-item">-->
+<!--                                <a th:href="@{/book/thongke}" class="link" th:classappend="${title != null && title == 'Thống kê giáo trình' ? 'current-link' : ''}">-->
+<!--                                    <span>Thống kê</span>-->
+<!--                                </a>-->
+<!--                            </li>-->
+                        </ol>
+                    </div>
+                </li>
+
+                <!-- li 2 -->
+                <li class="list-item">
+                    <div class="block-item" th:classappend="${group != null && group == 'phieu' ? 'select-nav select-nav-bgcl' : ''}">
+                        <button class="drop-clk drop-flow">
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-6 h-6"
+                            >
+                                <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"
+                                />
+                            </svg>
+
+                            <span>Phiếu</span>
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="drop-down-icon w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                            >
+                                <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                />
+                            </svg>
+                        </button>
+                        <ol class="drop-list">
+                            <li class="drop-list-item">
+                                <a th:href="@{/phieunhap}" class="link" th:classappend="${title != null && title == 'Trang phiếu nhập' ? 'current-link' : ''}">
+                                    <span>Phiếu nhập</span>
+                                </a>
+                            </li>
+                            <li class="drop-list-item">
+                                <a th:href="@{/phieuxuat}" class="link" th:classappend="${title != null && title == 'Trang phiếu xuất' ? 'current-link' : ''}">
+                                    <span>Phiếu xuất</span>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+
+                <!-- li 3 -->
+                <li class="list-item">
+                    <div class="block-item" th:classappend="${group != null && group == 'cungcap' ? 'select-nav select-nav-bgcl' : ''}">
+                        <button class="drop-clk drop-flow">
+                            <i class="ph ph-stack"></i>
+                            <span>Đối tác - Lớp học</span>
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="drop-down-icon w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+
+                            >
+                                <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                />
+                            </svg>
+                        </button>
+                        <ol class="drop-list">
+                            <li class="drop-list-item">
+                                <a th:href="@{/nhacungcap}" class="link" th:classappend="${title != null && title == 'Nhà cung cấp' ? 'current-link' : ''}">
+                                    <span>Nhà cung cấp</span>
+                                </a>
+                            </li>
+                            <li class="drop-list-item">
+                                <a th:href="@{/lophoc}" class="link" th:classappend="${title != null && title == 'Lớp học' ? 'current-link' : ''}">
+                                    <span>Lớp học</span>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="header-main">
+        <header th:style="${create_nhap_xuat != null && create_nhap_xuat ? 'position: unset' : ''}">
+            <div class="head" th:style="${create_nhap_xuat != null && create_nhap_xuat ? 'padding-bottom: 2rem' : ''}">
+                <p th:text="${title}" style="margin: 0 !important;"></p>
+                <div class="right-inf">
+                    <button>
+                        <img class="avt" th:src="@{/pictures/main/logo.png}" alt="" />
+                        <span th:text="${fullname}"></span>
+                        <i class="ph ph-caret-down"></i>
+                    </button>
+                    <ul>
+<!--                        <li>-->
+<!--                            <a>-->
+<!--                                <i class="ph ph-user-gear"></i>-->
+<!--                                Tài khoản của tôi-->
+<!--                            </a>-->
+<!--                        </li>-->
+                        <li>
+                            <a th:href="@{/lichsu/nhap}">
+                                <i class="ph ph-book-bookmark"></i>
+                                Lịch sử nhập phiếu
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/logout}">
+                                <i class="ph ph-sign-out"></i>
+                                Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+
+        <!--    Body -->
+
+
+        <th:block layout:fragment="content"></th:block>
+    </div>
+
+</section>
+
+<!-- script js -->
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+></script>
+
+<script th:src="@{/js/event_category.js}" defer="defer"></script>
+<script defer="defer" th:src="@{/js/header.js}"></script>
+
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

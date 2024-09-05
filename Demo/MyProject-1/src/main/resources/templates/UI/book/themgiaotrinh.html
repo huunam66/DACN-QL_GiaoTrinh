@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!-- STYLE-->
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/taonhanvien.css}" />
+    <link rel="stylesheet" th:href="@{/css/themgiaotrinh.css}" />
+</th:block>
+
+<!-- CONTENT-->
+<th:block layout:fragment="content">
+    <main class="container">
+        <div class="layout-in">
+            <div class="form-in">
+                <a class="back" href="/book" th:href="${return_page_book}">Quay lại</a>
+                <form id="form" method="post" enctype="multipart/form-data" th:action="${action}" th:object="${giaotrinh}">
+                    <h1 class="tit"></h1>
+                    <div class="box-imp">
+                        <div class="box-imp-lf">
+                            <input type="hidden" th:field="*{id}" id="id" name="id">
+                            <p class="box-imp-item">
+                                <label class="required">Tên giáo trình:</label>
+                                <input title="Bắt buộc" th:field="*{ten}" id="ten" name="ten" type="text" placeholder="Nhập tên giáo trình">
+                                <span class="error" th:text="${contraint_name}"></span>
+                            </p>
+                            <p class="box-imp-item">
+                                <label class="required">Thuộc chuyên ngành:</label>
+                                <select id="chuyennganh" name="chuyennganh" title="Bắt buộc">
+                                    <option value="#">Chọn</option>
+                                    <th:block th:each="item : ${list_chuyennganh}">
+                                        <option
+                                                th:selected="${chuyennganh_index != null && chuyennganh_index == item.getId()}"
+                                                th:value="${item.getId()}"
+                                                th:text="${item.getTenchuyennganh()}"
+                                        ></option>
+                                    </th:block>
+                                </select>
+                                <span class="error"></span>
+                            </p>
+                            <p class="box-imp-item">
+                                <label class="required">Tác giả:</label>
+                                <input title="Bắt buộc" th:field="*{tacgia}" id="tacgia" name="tacgia" type="text" placeholder="Nhập tác giả">
+                                <span class="error"></span>
+                            </p>
+                            <p class="box-imp-item">
+                                <label class="required">Nhà xuất bản:</label>
+                                <input title="Bắt buộc" th:field="*{nhaxuatban}" id="nhaxuatban" name="nhaxuatban" type="text" placeholder="Nhập nhà xuất bản">
+                                <span class="error"></span>
+                            </p>
+                            <p class="box-imp-item">
+                                <label class="required">Năm xuất bản:</label>
+                                <select id="namxuatban" name="namxuatban" title="Bắt buộc">
+                                    <option value="#">Chọn</option>
+                                    <th:block th:each="num : ${#numbers.sequence(#dates.year(#dates.createNow()), 1950, -1)}">
+                                        <option
+                                                th:selected="${namxuatban_index != null && namxuatban_index == num}"
+                                                th:value="${num}"
+                                                th:text="${num}"
+                                        ></option>
+                                    </th:block>
+                                </select>
+                                <span class="error"></span>
+                            </p>
+                            <p class="box-imp-item">
+                                <label>Ngày tạo:</label>
+                                <input th:value="${ngaytao != null ? #dates.format(ngaytao, 'dd/MM/yyyy').toString()
+                                                    : #dates.format(#dates.createNow(), 'dd/MM/yyyy').toString()}"
+                                       id="ngaytao" name="ngaytao" type="text" class="read-only" readonly>
+                                <span class="error"></span>
+                            </p>
+                            <th:block th:if="${action == '/book/update'}">
+                                <p class="box-imp-item">
+                                    <label class="required">Giá:</label>
+                                    <input title="Bắt buộc" th:field="*{gia}" id="gia" name="gia" type="number" placeholder="Nhập giá">
+                                    <span class="error"></span>
+                                </p>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="box-sm">
+                        <p th:text="${status_save}"
+                           style="display: inline-block; margin-right: 2rem; color: red; font-size: 1.4rem;"></p>
+                        <button type="button">Lưu</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="box-img-rr">
+                <input id="file" name="file" type="file" class="dive-mod-none" form="form">
+                <input form="form" id="hinhanh" name="hinhanh" th:value="${giaotrinh.getHinhanh()}" type="hidden" class="dive-mod-none">
+                <picture title="Bắt buộc">
+                    <img th:src="${'/pictures/book/' + giaotrinh.getHinhanh()}" class="img-book img-load">
+                </picture>
+                <p class="error"></p>
+                <p class="p-btn">
+                    <button class="btn-img-cl-b">Chọn ảnh</button>
+                </p>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+<!-- script js -->
+
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/themgiaotrinh.js}" defer="defer"></script>
+</th:block>
+
+</html>

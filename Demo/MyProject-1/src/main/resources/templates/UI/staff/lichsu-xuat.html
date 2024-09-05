@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+
+<!--Style-->
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/phieunhap.css}" />
+</th:block>
+
+<!--Content-->
+<th:block layout:fragment="content">
+    <div class="top-mod d-none"
+         style="background-color: transparent;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            width: 140rem;
+            max-width: 100%;
+            padding: 1rem 3.6rem;
+            margin: 2rem auto 0 auto;">
+        <p class="left-t"></p>
+        <div class="btn-mod-area">
+            <!-- <a href="#" class="exit">Thoát</a> -->
+            <div class="submit-cr">
+                <a th:href="@{/phieuxuat/create}" class="cr-ph">Tạo phiếu xuất</a>
+                <button class="caret-down">
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <ul class="more">
+                    <li>
+                        <a th:href="@{/phieu/thongke}" class="create">Thống kê</a>
+                    </li>
+                    <!-- <li>
+                      <button class="create">Tạo phiếu</button>
+                    </li>
+                    <li>
+                      <button class="create">Tạo phiếu và duyệt</button>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <main class="container">
+        <div class="layout-in" style="margin-top: 1rem">
+            <div class="tab-ar">
+                <div class="top">
+                    <p class="type-p">Lịch sử xuất phiếu</p>
+                </div>
+                <div class="middle">
+                    <div class="ele-1">
+                        <form method="GET" th:action="@{/lichsu/xuat}">
+                        <i class="bx bx-search-alt-2"></i>
+                        <input
+                                th:value="${search}" name="search" id="search" class="search" type="text"
+                                placeholder="Tìm kiếm theo phiếu"
+                        />
+                            <button type="submit" class="search-bsm">Tìm kiếm</button>
+
+                        </form>
+                    </div>
+                    <div class="sort_ role-select">
+                        <select id="sortDrop" name="sortDrop" class="sort-container">
+                            <option th:selected="${sort eq 'Sắp xếp theo tổng tiền'}" class="sort-value" value="">Sắp xếp theo tổng tiền</option>
+                            <option th:selected="${sort eq 'asc'}" class="sort-value" value="asc">Tăng dần</option>
+                            <option th:selected="${sort eq 'desc'}" class="sort-value" value="desc">Giảm dần</option>
+                        </select>
+
+                    </div>
+<!--                    <div class="ele-2">-->
+<!--                        <div class="cat">-->
+<!--                            <button class="btn-btn">-->
+<!--                                <span>Ngày tạo</span>-->
+<!--                                <i class="ph ph-caret-down"></i>-->
+<!--                            </button>-->
+<!--                            <div class="cb-cb-s date-cr">-->
+<!--                                <input type="button" name="type-date" value="Hôm nay" />-->
+<!--                                <input type="button" name="type-date" value="Hôm qua" />-->
+<!--                                <input type="button" name="type-date" value="Tuần trước" />-->
+<!--                                <input type="button" name="type-date" value="Tuần này" />-->
+<!--                                <input type="button" name="type-date" value="Tháng trước" />-->
+<!--                                <input type="button" name="type-date" value="Tháng này" />-->
+<!--                                <input type="button" name="type-date" value="Tùy chọn" />-->
+<!--                                <div class="date-ssss">-->
+<!--                                    <input type="date" name="date_start" />-->
+<!--                                    <input type="date" name="date_end" />-->
+<!--                                </div>-->
+<!--                                <a class="submit-t">Lọc</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+                <div class="tab-pr-gt">
+                    <table class="tab-pr">
+                        <thead>
+                        <tr>
+                            <th class="checkbox">
+                                <input type="hidden" class="cb-th" />
+                            </th>
+                            <th class="price">Mã</th>
+                            <th class="category">Ngày tạo</th>
+                            <th class="category">Tên người nhận</th>
+                            <th class="category">SDT người nhận</th>
+                            <th class="category">Lớp học</th>
+                            <th class="category">Giảng viên</th>
+                            <th class="category">Môn học</th>
+                            <th class="category">Phòng học</th>
+                            <th class="category">Thời gian học</th>
+                            <th class="category">Năm học</th>
+                            <th class="category">Tổng giáo trình</th>
+                            <th class="category">Tổng tiền</th>
+                            <th class="author">Trạng thái</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="px, bag : ${phieuXuats}">
+                            <td class="checkbox">
+                                <input type="checkbox" class="cb-td" th:id="${'id-'+px.getId()}"/>
+                            </td>
+                            <td th:text="${px.id}" class="price">Mã</td>
+                            <td th:text="${#dates.format(px.ngay,'dd/MM/yyyy')}" class="category">ngày tạo</td>
+                            <td th:text="${px.getTennguoinhan()}" class="category">Mã</td>
+                            <td th:text="${px.getSdtnguoinhan()}" class="category">Mã</td>
+                            <td th:text="${px.getLop() != null ? px.getLop().getTen() : ''}" class="category">Mã</td>
+                            <td th:text="${px.getLop() != null ? px.getLop().getGiangvien() : ''}" class="category">Mã</td>
+                            <td th:text="${px.getLop() != null ? px.getLop().getMonhoc() : ''}" class="category">Mã</td>
+                            <td th:text="${px.getLop() != null ? px.getLop().getPhonghoc() : ''}" class="category">Mã</td>
+                            <td th:text="${px.getLop() != null ? px.getLop().getThoigianhoc() : ''}" class="category">Mã</td>
+                            <td th:text="${px.getLop() != null ? px.getLop().getNamhoc() : ''}" class="category">Mã</td>
+                            <td th:text="${tongsoluong[bag.index]}" class="category">Mã</td>
+                            <td th:text="${#numbers.formatDecimal(px.tongtien, 0, 'POINT', 0, 'COMMA')+ ' đ'}" class="category">Tổng tiền</td>
+                            <td class="author">
+                                <span th:if="${px.trangthai == true}">Hoàn thành</span>
+                                <span th:if="${px.trangthai == false}">Chưa hoàn thành</span>
+                            </td>
+                        </tr>
+<!--                        <tr>-->
+<!--                            <td class="checkbox">-->
+<!--                                <input type="checkbox" class="cb-td" />-->
+<!--                            </td>-->
+<!--                            <td class="price">Mã</td>-->
+<!--                            <td class="update">ngày tạo</td>-->
+<!--                            <td class="category">Tổng tiền</td>-->
+<!--                            <td class="author">Trạng thái</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td class="checkbox">-->
+<!--                                <input type="checkbox" class="cb-td" />-->
+<!--                            </td>-->
+<!--                            <td class="price">Mã</td>-->
+<!--                            <td class="update">ngày tạo</td>-->
+<!--                            <td class="category">Tổng tiền</td>-->
+<!--                            <td class="author">Trạng thái</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td class="checkbox">-->
+<!--                                <input type="checkbox" class="cb-td" />-->
+<!--                            </td>-->
+<!--                            <td class="price">Mã</td>-->
+<!--                            <td class="update">ngày tạo</td>-->
+<!--                            <td class="category">Tổng tiền</td>-->
+<!--                            <td class="author">Trạng thái</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td class="checkbox">-->
+<!--                                <input type="checkbox" class="cb-td" />-->
+<!--                            </td>-->
+<!--                            <td class="price">Mã</td>-->
+<!--                            <td class="update">ngày tạo</td>-->
+<!--                            <td class="category">Tổng tiền</td>-->
+<!--                            <td class="author">Trạng thái</td>-->
+<!--                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-list">
+                    <p class="txt-txt" th:text="${count_item + ' trên tổng số ' + max_size + ' phiếu xuất.'}"></p>
+
+                    <!--                    PAGE OPTION-->
+                    <th:block th:if="${page > 1}">
+                        <a th:href="${'/lichsu/xuat?page=' + (page - 1) + (sort != '' ? '&sort=' + sort : '')+ (search != '' ? '&search=' + search : '')}">
+                            <i class="ph ph-caret-left"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${page > 1}">
+                        <a class="dive-mod">
+                            <i class="ph ph-caret-left"></i>
+                        </a>
+                    </th:block>
+
+                    <p class="page" th:text="${page}"></p>
+
+                    <th:block th:if="${page < count_page}">
+                        <a th:href="${'/lichsu/xuat?page=' + (page + 1) + (sort != '' ? '&sort=' + sort : '')+ (search != '' ? '&search=' + search : '')}">
+                            <i class="ph ph-caret-right"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${page < count_page}">
+                        <a class="dive-mod">
+                            <i class="ph ph-caret-right"></i>
+                        </a>
+                    </th:block>
+                    <!--                    PAGE OPTION-->
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+<!--SCRIPT-->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/lichsu-xuat.js}" defer="defer"></script>
+</th:block>
+</html>

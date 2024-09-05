@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--HEAD-->
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/phieunhap.css}" />
+    <link rel="stylesheet" th:href="@{/css/taophieunhap.css}" />
+</th:block>
+
+<!--CONTENT-->
+<th:block layout:fragment="content">
+    <div class="top-mod">
+        <a
+                th:href="@{/phieunhap}"
+                class="left-t"
+                style="display: flex; align-items: center; font-size: 1.6rem"
+        >
+            <i
+                    class="ph ph-arrow-arc-left"
+                    style="font-size: 2.4rem; margin-right: 1rem"
+            ></i>
+            Trang quản lý phiếu nhập
+        </a>
+    </div>
+
+    <main class="container">
+        <div class="layout-main">
+            <div class="layout-main-top">
+                <div class="left-site">
+                    <p class="tit">Thông tin nhà cung cấp</p>
+                    <div class="choosed-item">
+                        <figure class="nhacungcap-inf">
+                            <input type="hidden" name="nhacungcap_id" form="them-phieunhap">
+                            <p class="name">
+                                <span>Tên nhà cung cấp:</span>
+                                <input class="underline-fix" placeholder="Trống !" th:value="${phieunhap.getNhacungcap() != null ? phieunhap.getNhacungcap().getTen() : ''}" readonly>
+                            </p>
+                            <p class="phone">
+                                <span>Số điện thoại:</span>
+                                <input class="underline-fix" placeholder="Trống !" th:value="${phieunhap.getNhacungcap() != null ? phieunhap.getNhacungcap().getSdt() : ''}" readonly>
+                            </p>
+                            <p class="email">
+                                <span>Email:</span>
+                                <input class="underline-fix" placeholder="Trống !" th:value="${phieunhap.getNhacungcap() != null ? phieunhap.getNhacungcap().getEmail() : ''}" readonly>
+                            </p>
+                            <p class="address">
+                                <span>Địa chỉ:</span>
+                                <input class="underline-fix" placeholder="Trống !" th:value="${phieunhap.getNhacungcap() != null ? phieunhap.getNhacungcap().getDiachi() : ''}" readonly>
+                            </p>
+                        </figure>
+                    </div>
+                </div>
+                <div class="right-site">
+                    <p class="tit">Thông tin đơn nhập hàng</p>
+                    <p class="chinhanh">
+                        <span class="w-9-8-r">Chi nhánh:</span>
+                        <span class="underline-fix">Trường Đại Học Công Thương</span>
+                    </p>
+                    <p class="nhanvien">
+                        <span class="w-9-8-r">Nhân viên:</span>
+                        <span class="underline-fix" th:text="${phieunhap.getNhanvien() != null ? phieunhap.getNhanvien().getTen() : ''}"></span>
+                    </p>
+                    <p class="">
+                        <span class="w-9-8-r">Ngày nhập:</span>
+                        <span class="underline-fix" th:text="${#dates.format(phieunhap.getNgay(), 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p class="">
+                        <span class="w-9-8-r">Tình trạng:</span>
+                        <span class="underline-fix"
+                              th:classappend="${phieunhap.getTinhtrang() == 'Đã duyệt' ? 'cl-green' : 'cl-red'}"
+                              th:text="${phieunhap.getTinhtrang()}"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="layout-main-site">
+                <th:block th:if="${phieunhap.getTinhtrang() == 'Chưa duyệt' && role == 'ADMIN'}">
+                    <div class="duyet-huy">
+                        <input type="hidden" class="d-none" th:value="${phieunhap.getId()}" name="id-phieu">
+                        <button class="duyet">Duyệt phiếu</button>
+                        <button class="huy">Hủy phiếu</button>
+                    </div>
+                </th:block>
+
+                <div class="top">
+                    <p class="tit">Thông tin giáo trình</p>
+                </div>
+                <div class="tab-book">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="stt">STT</th>
+                            <th class="anh">Ảnh</th>
+                            <th class="ten">Tên giáo trình</th>
+                            <th class="slnhap">SL nhập</th>
+                            <th class="dongia">Giá nhập</th>
+                            <!--                                <th class="chietkhau">Chiết khấu</th>-->
+                            <th class="thanhtien">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="item, tag : ${phieunhap.getChitietphieunhaps()}">
+                                <tr>
+                                    <td class="stt">
+                                        <th:block th:text="${tag.index + 1}"></th:block>
+                                    </td>
+                                    <td class="anh">
+                                        <img th:src="${'/pictures/book/' + (item.getGiaotrinh() != null ? item.getGiaotrinh().getHinhanh() : '')}">
+                                    </td>
+                                    <td class="ten">
+                                        <a th:href="${'/book/detail?id='+(item.getGiaotrinh() != null ? item.getGiaotrinh().getId() : '')}" th:text="${item.getGiaotrinh() != null ? item.getGiaotrinh().getTen() : null}"></a>
+                                    </td>
+                                    <td class="slnhap" th:text="${item.getSoluong()}"></td>
+                                    <td class="dongia" th:text="${#numbers.formatDecimal(item.getDongia(), 0, 'POINT', 0, 'COMMA') + ' đ'}"></td>
+    <!--                                <td class="chietkhau">Chiết khấu</td>-->
+                                    <td class="thanhtien" th:text="${#numbers.formatDecimal((item.getDongia() * item.getSoluong()), 0, 'POINT', 0, 'COMMA') + ' đ'}"></td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bot-site">
+                    <div class="note">
+                        <p>Ghi chú</p>
+                        <textarea th:text="${phieunhap.getGhichu()}" class="note" readonly></textarea>
+                    </div>
+                    <div class="other-r">
+                        <p class="soluong">
+                            <span>Số lượng</span>
+                            <span class="num" th:text="${tongsoluong}"></span>
+                        </p>
+                        <p class="tongtien">
+                            <span>Tổng tiền</span>
+                            <span class="num" th:text="${#numbers.formatDecimal(phieunhap.getTongtien(), 0, 'POINT', 0, 'COMMA') + ' đ'}"></span>
+                        </p>
+                        <!--                            <p class="chietkhau">-->
+                        <!--                                <span>Chiết khấu</span>-->
+                        <!--                                <span class="num">0</span>-->
+                        <!--                                <input class="ckau" name="chietkhau">-->
+                        <!--                            </p>-->
+                        <p class="tiencantra">
+                            <span>Tiền cần trả</span>
+                            <span class="num" th:text="${#numbers.formatDecimal(phieunhap.getTongtien(), 0, 'POINT', 0, 'COMMA') + ' đ'}"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+<!--SCRIPT-->
+
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer="defer" th:src="@{/js/chitietphieunhap.js}"></script>
+</th:block>
+</html>

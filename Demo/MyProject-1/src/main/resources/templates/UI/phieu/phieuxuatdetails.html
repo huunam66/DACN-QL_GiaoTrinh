@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!--HEAD-->
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/phieunhap.css}" />
+    <link rel="stylesheet" th:href="@{/css/taophieunhap.css}" />
+</th:block>
+
+<!--CONTENT-->
+<th:block layout:fragment="content">
+    <div class="top-mod">
+        <th:block th:if="${role == 'MANAGER'}">
+            <a
+                    th:href="@{/phieuxuat}"
+                    class="left-t"
+                    style="display: flex; align-items: center; font-size: 1.6rem"
+            >
+                <i
+                        class="ph ph-arrow-arc-left"
+                        style="font-size: 2.4rem; margin-right: 1rem"
+                ></i>
+                Trang quản lý phiếu xuất
+            </a>
+        </th:block>
+        <th:block th:if="${role == 'USER'}">
+            <a
+                    th:href="@{/lichsu/xuat}"
+                    class="left-t"
+                    style="display: flex; align-items: center; font-size: 1.6rem"
+            >
+                <i
+                        class="ph ph-arrow-arc-left"
+                        style="font-size: 2.4rem; margin-right: 1rem"
+                ></i>
+                Lịch sử xuất phiếu
+            </a>
+        </th:block>
+    </div>
+
+    <main class="container">
+        <div class="layout-main">
+            <div class="layout-main-top">
+                <div class="left-site">
+                    <p class="tit">Thông tin lớp học</p>
+                    <div class="choosed-item" style="padding-top: 0 !important;">
+                        <figure>
+                            <!--                                <i class="ph ph-codesandbox-logo"></i>-->
+                            <p class="name">
+                                <span>Tên lớp:</span>
+                                <input class="underline-fix" th:value="${phieuxuat.getLop() != null ? phieuxuat.getLop().getTen() : ''}" readonly title="Bắt buộc" name="tenlop" placeholder="Nhập tên lớp">
+                            </p>
+                            <p class="phone">
+                                <span>Môn học:</span>
+                                <input class="underline-fix" th:value="${phieuxuat.getLop() != null ? phieuxuat.getLop().getMonhoc() : ''}" readonly title="Bắt buộc" name="monhoc" placeholder="Nhập tên môn học">
+                            </p>
+                            <p class="phone">
+                                <span>Giảng viên:</span>
+                                <input class="underline-fix" th:value="${phieuxuat.getLop() != null ? phieuxuat.getLop().getGiangvien() : ''}" readonly title="Bắt buộc" name="giangvien" placeholder="Nhập tên giảng viên">
+                            </p>
+                            <p class="phone">
+                                <span>Phòng học:</span>
+                                <input class="underline-fix" th:value="${phieuxuat.getLop() != null ? phieuxuat.getLop().getPhonghoc() : ''}" readonly title="Bắt buộc" name="phonghoc" placeholder="Nhập phòng học">
+                            </p>
+                            <p class="phone">
+                                <span>Thời gian học:</span>
+                                <input class="underline-fix" th:value="${phieuxuat.getLop() != null ? phieuxuat.getLop().getThoigianhoc() : ''}" readonly title="Bắt buộc" name="thoigian" placeholder="Nhập thời gian học">
+                            </p>
+                            <p class="phone">
+                                <span>Năm học:</span>
+                                <input class="underline-fix" th:value="${phieuxuat.getLop() != null ? phieuxuat.getLop().getNamhoc() : ''}" readonly title="Bắt buộc" name="namhoc" placeholder="Nhập năm học">
+                            </p>
+                        </figure>
+                    </div>
+                </div>
+                <div class="right-site">
+                    <p class="tit">Thông tin phiếu xuất hàng</p>
+                    <p class="chinhanh">
+                        <span>Chi nhánh:</span>
+                        <span class="underline-fix">Trường Đại Học Công Thương</span>
+                    </p>
+                    <p class="nhanvien">
+                        <span>Nhân viên:</span>
+                        <span class="underline-fix" th:text="${phieuxuat.getNhanvien() != null ? phieuxuat.getNhanvien().getTen() : ''}">Nguyễn Hữu Nam - ID123</span>
+                    </p>
+                    <p class="ngayhengiao">
+                        <span>Ngày xuất:</span>
+                        <span class="underline-fix" th:text="${#dates.format(phieuxuat.getNgay(), 'dd/MM/yyyy')}"></span>
+                    </p>
+                    <p class="nhanvien">
+                        <span>Tên người nhận:</span>
+                        <input class="underline-fix" th:value="${phieuxuat.getTennguoinhan()}" name="tennguoinhan" required title="Bắt buộc" placeholder="Nhập tên người nhận" type="text">
+                    </p>
+                </div>
+            </div>
+            <div class="layout-main-site">
+                <div class="top">
+                    <p class="tit">Thông tin giáo trình</p>
+                </div>
+                <div class="tab-book">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="stt">STT</th>
+                            <th class="anh">Ảnh</th>
+                            <th class="ten">Tên giáo trình</th>
+                            <th class="slnhap">Số lượng</th>
+                            <th class="dongia">Giá xuất</th>
+                            <th class="thanhtien">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="item, tag : ${phieuxuat.getChitietphieuxuats()}">
+                                <tr>
+                                    <td class="stt" th:text="${tag.index + 1}"></td>
+                                    <td class="anh">
+                                        <img th:src="${'/pictures/book/' + (item.getGiaotrinh() != null ? item.getGiaotrinh().getHinhanh() : null)}">
+                                    </td>
+                                    <td class="ten">
+                                        <a th:href="${'/book/detail?id=' + (item.getGiaotrinh() != null ? item.getGiaotrinh().getId() : null)}" th:text="${item.getGiaotrinh() != null ? item.getGiaotrinh().getTen() : null}"></a>
+                                    </td>
+                                    <td class="slnhap" th:text="${item.getSoluong()}">p</td>
+                                    <td class="dongia" th:text="${#numbers.formatDecimal(item.getDongia(), 0, 'POINT', 0, 'COMMA') + ' đ'}"></td>
+<!--                                    <td class="chietkhau">Chiết khấu</td>-->
+                                    <td class="thanhtien" th:text="${#numbers.formatDecimal((item.getDongia() * item.getSoluong()), 0, 'POINT', 0, 'COMMA') + ' đ'}"></td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bot-site">
+                    <div class="note">
+                        <p>Ghi chú</p>
+                        <textarea th:text="${phieuxuat.getGhichu()}" class="note"></textarea>
+                    </div>
+                    <div class="other-r">
+                        <p class="soluong">
+                            <span>Số lượng</span>
+                            <span class="num" th:text="${tongsoluong}">0</span>
+                        </p>
+                        <p class="tongtien">
+                            <span>Tổng tiền</span>
+                            <span class="num" th:text="${#numbers.formatDecimal(phieuxuat.getTongtien(), 0, 'POINT', 0, 'COMMA') + ' đ'}">0</span>
+                        </p>
+                        <!--                            <p class="chietkhau">-->
+                        <!--                                <span>Chiết khấu</span>-->
+                        <!--                                <span class="num">0</span>-->
+                        <!--                            </p>-->
+                        <p class="tiencantra">
+                            <span>Tổng thành tiền</span>
+                            <span class="num" th:text="${#numbers.formatDecimal(phieuxuat.getTongtien(), 0, 'POINT', 0, 'COMMA') + ' đ'}">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+
+<!--SCRIPT-->
+
+<th:block layout:fragment="script">
+</th:block>
+</html>

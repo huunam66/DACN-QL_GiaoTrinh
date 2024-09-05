@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{${
+            role == 'ADMIN' ? '/ui/Layout_Page/layout_admin'
+            : (role == 'MANAGER' ? '/ui/Layout_Page/layout_manager': '/ui/Layout_Page/layout_user')
+      }}">
+
+<!-- STYLE -->
+
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{/css/nhanvien.css}"/>
+</th:block>
+
+<!-- CONTENT -->
+<th:block layout:fragment="content">
+    <main class="container">
+        <div class="layout-in">
+            <div class="top-1">
+                <a th:href="@{/nhanvien/create}" class="more-book">
+                    <i class="ph ph-plus"></i>
+                    Thêm nhân viên
+                </a>
+            </div>
+
+            <div class="tab-ar">
+                <div class="top">
+                    <p class="type-p">Tất cả nhân viên</p>
+                </div>
+                <div class="middle">
+                    <div class="ele-1">
+                        <form id="form" method="GET" th:action="@{/nhanvien}">
+                            <i class='bx bx-search-alt-2'></i>
+                            <input th:value="${search}" name="search" id="search" class="search" type="text" placeholder="Tìm kiếm theo tên hoặc mã sinh viên">
+                            <button type="submit" class="search-bsm">Tìm kiếm</button>
+                        </form>
+                    </div>
+<!--                    <p class="p-rd-filter">-->
+<!--                        <input class="rd-filter" name="sc-filter" rd-ob="sc-filter-name" type="radio" checked>-->
+<!--                        Tìm theo tên-->
+<!--                    </p>-->
+<!--                    <p class="p-rd-filter">-->
+<!--                        <input class="rd-filter" name="sc-filter" rd-ob="sc-filter-id" type="radio">-->
+<!--                        Tìm theo mã-->
+<!--                    </p>-->
+
+
+                        <div class="sort_ role-select">
+                            <select id="type" name="type" class="sort-container" form="form">
+                                <option th:selected="${type == ''}" class="sort-value" value="">Quyền hạn</option>
+                                <option th:selected="${type == 'MANAGER'}" class="sort-value" value="MANAGER">Quản lý</option>
+                                <option th:selected="${type == 'STUDENT'}" class="sort-value" value="STUDENT">Nhân viên</option>
+                            </select>
+                        </div>
+                </div>
+                <div class="tab-pr-gt">
+                    <table class="tab-pr">
+                        <thead>
+                        <tr>
+                            <th class="checkbox"></th>
+                            <th class="price">ID</th>
+                            <th class="category">Mã sinh viên</th>
+                            <th class="category">Tên sinh viên</th>
+                            <th class="author">Số điện thoại</th>
+                            <th class="author">Chức vụ</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="item, bag : ${list_nhanvien}">
+                            <tr th:classappend="${quyen[bag.index] ? 'manager' : ''}">
+                                <td class="checkbox">
+                                    <input th:id="${'id-' + item.getId()}" type="checkbox" class="cb-td"/>
+                                </td>
+                                <td class="price" th:text="${item.getId()}"></td>
+                                <td class="category mssv" th:text="${item.getMssv()}"></td>
+                                <td class="category name" th:text="${item.getTen()}"></td>
+                                <td class="author" th:text="${item.getSdt()}"></td>
+                                <td class="author" th:text="${quyen[bag.index] ? 'Quản lý' : 'Nhân viên'}"></td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-list">
+                    <!-- <div class="type-mod">
+                        <a class="op-item ud" href="#">Sửa</a>
+                        <a class="op-item del" href="#">Xóa</a>
+                        <a class="op-item cr-ac" href="#">Tạo tài khoản</a>
+                        <a class="op-item gr-ac" href="#">Phân quyền</a>
+                    </div> -->
+                    <p class="txt-txt" th:text="${count_item + ' trên tổng số ' + max_size + ' nhân viên.'}"></p>
+
+<!--                    PAGE OPTION-->
+                    <th:block th:if="${page > 1}">
+                        <a th:href="${'/nhanvien?page=' + (page - 1) + (type != '' ? '&type=' + type: '')}">
+                            <i class="ph ph-caret-left"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${page > 1}">
+                        <a class="dive-mod">
+                            <i class="ph ph-caret-left"></i>
+                        </a>
+                    </th:block>
+
+                    <p class="page" th:text="${page}"></p>
+
+                    <th:block th:if="${page < count_page}">
+                        <a th:href="${'/nhanvien?page=' + (page + 1) + (type != '' ? '&type=' + type: '')}">
+                            <i class="ph ph-caret-right"></i>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${page < count_page}">
+                        <a class="dive-mod">
+                            <i class="ph ph-caret-right"></i>
+                        </a>
+                    </th:block>
+<!--                    PAGE OPTION-->
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+
+<!-- script js -->
+<th:block layout:fragment="script">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/nhanvien.js}" defer="defer"></script>
+</th:block>
+
+</html>
